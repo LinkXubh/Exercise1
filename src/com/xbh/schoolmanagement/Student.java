@@ -10,19 +10,24 @@ public class Student {
 
 	}
 
+	/**
+	 * 双参构造参数，分数默认为0
+	 * 
+	 * @param stuNum
+	 * @param stuName
+	 */
 	public Student(String stuNum, String stuName) {
-		setStuNum(stuNum);
-		setStuName(stuName);
-		setMath(0.0f);
-		setChinese(0.0f);
+		this.setStuNum(stuNum);
+		this.setStuName(stuName);
+		this.math = 0.0f;
+		this.chinese = 0.0f;
 	}
 
-	public Student(String stuNum, String stuName, float math, float chinese) {
-		setStuNum(stuNum);
-		setStuName(stuName);
-		setMath(math);
-		setChinese(chinese);
-	}
+	/*
+	 * public Student(String stuNum, String stuName, float math, float chinese) {
+	 * this.setStuNum(stuNum); this.setStuName(stuName); this.setMath(math);
+	 * this.setChinese(chinese); }
+	 */
 
 	public String getStuNum() {
 		return stuNum;
@@ -45,7 +50,13 @@ public class Student {
 	}
 
 	public void setMath(float math) {
-		this.math = math;
+		// 分数有效区间为[0,100]，区间外默认为0
+		if (math >= 0.0f && math <= 100.0f)
+			this.math = math;
+		else {
+			System.out.println("超出分数有效范围，默认为0！");
+			this.math = 0.0f;
+		}
 	}
 
 	public float getChinese() {
@@ -53,7 +64,13 @@ public class Student {
 	}
 
 	public void setChinese(float chinese) {
-		this.chinese = chinese;
+		// 分数有效区间为[0,100]，区间外默认为0
+		if (chinese >= 0.0f && chinese <= 100.0f)
+			this.chinese = chinese;
+		else {
+			System.out.println("超出分数有效范围，默认为0！");
+			this.chinese = 0.0f;
+		}
 	}
 
 	@Override
