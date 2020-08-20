@@ -1,5 +1,6 @@
 package com.xbh.schoolmanagement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Banji {
@@ -14,7 +15,7 @@ public class Banji {
 	public Banji(String classId, String className) {
 		this.setClassId(classId);
 		this.setClassName(className);
-		this.stuList = null;
+		this.stuList = new ArrayList<Student>();
 	}
 
 	public String getClassId() {
@@ -47,14 +48,15 @@ public class Banji {
 	 * @param stu
 	 */
 	public void addStudent(Student stu) {
+		// 判断学生是否存在
 		for (Student student : stuList) {
 			if (student.equals(stu)) {
-				System.out.println("学生" + stu.getStuNum() + "在班级" + this.getClassId() + "中已存在！");
+				System.out.println("学生：" + stu.getStuNum() + "在班级：" + this.getClassName() + "中已存在！");
 				return;
 			}
 		}
-	stuList.add(stu);
-	System.out.println("添加学生成功！");
+		stuList.add(stu);
+		System.out.println("添加学生成功！");
 	}
 
 	/**
@@ -64,6 +66,10 @@ public class Banji {
 	 * @return
 	 */
 	public Student searchStudentByNum(String stuNum) {
+		for (Student student : stuList) {
+			if (student.getStuNum().equals(stuNum))
+				return student;
+		}
 		return null;
 	}
 
@@ -74,7 +80,8 @@ public class Banji {
 	 * @param score
 	 */
 	public void insertChineseScore(String stuNum, float score) {
-
+		Student student = this.searchStudentByNum(stuNum);
+		student.setChinese(score);
 	}
 
 	/**
@@ -84,7 +91,8 @@ public class Banji {
 	 * @param score
 	 */
 	public void insertMathScore(String stuNum, float score) {
-
+		Student student = this.searchStudentByNum(stuNum);
+		student.setMath(score);
 	}
 
 	/**
@@ -93,6 +101,13 @@ public class Banji {
 	 * @param stuNum
 	 */
 	public void deleteStudent(String stuNum) {
+		Student student = this.searchStudentByNum(stuNum);
+		if (student != null) {
+			this.getStuList().remove(student);
+			System.out.println("删除成功！");
+		} else {
+			System.out.println("没有找到学号为：" + stuNum + "的学生！");
+		}
 
 	}
 
@@ -100,6 +115,14 @@ public class Banji {
 	 * 显示所有学生的信息（包括学号和姓名）
 	 */
 	public void displayAllStudent() {
+		System.out.println(this.getClassName() + "班级列表：");
+		for (Student student : stuList) {
+			System.out.println(student);
+		}
+	}
 
+	@Override
+	public String toString() {
+		return "班级信息 ： [班级编号：" + classId + ", 班级名称：" + className + "]";
 	}
 }
