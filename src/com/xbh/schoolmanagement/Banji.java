@@ -81,7 +81,10 @@ public class Banji {
 	 */
 	public void insertChineseScore(String stuNum, float score) {
 		Student student = this.searchStudentByNum(stuNum);
-		student.setChinese(score);
+		if (student == null)
+			System.out.println("该学生不在此班级中");
+		else
+			student.setChinese(score);
 	}
 
 	/**
@@ -92,7 +95,10 @@ public class Banji {
 	 */
 	public void insertMathScore(String stuNum, float score) {
 		Student student = this.searchStudentByNum(stuNum);
-		student.setMath(score);
+		if (student == null)
+			System.out.println("该学生不在此班级中");
+		else
+			student.setMath(score);
 	}
 
 	/**

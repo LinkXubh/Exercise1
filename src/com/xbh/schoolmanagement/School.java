@@ -40,8 +40,7 @@ public class School {
 	 * @param banji
 	 */
 	public void deleteBanji(Banji banji) {
-		schoolMap.remove(banji.getClassName(), banji);
-		System.out.println("删除成功！");
+		schoolMap.remove(banji.getClassName());
 	}
 
 	/**
@@ -69,7 +68,7 @@ public class School {
 			if (className.equals("主学生列表"))
 				continue;
 			Banji banji = searchByName(className);
-			//Banji banji = schoolMap.get(className);
+			// Banji banji = schoolMap.get(className);
 			if (banji == null) {
 				System.out.println("未找到此班级");
 			} else {
@@ -83,6 +82,10 @@ public class School {
 				}
 				scoreMap.put(banji.getClassName(), score / num);
 			}
+		}
+		if (scoreMap.isEmpty()) {
+			System.out.println("还没有添加班级！");
+			return;
 		}
 		// 将scoreMap转为List排序输出
 		List<Entry<String, Float>> scoreList = new ArrayList<Entry<String, Float>>(scoreMap.entrySet());
@@ -118,6 +121,10 @@ public class School {
 				scoreMap.put(banji.getClassName(), score / num);
 			}
 		}
+		if (scoreMap.isEmpty()) {
+			System.out.println("还没有添加班级！");
+			return;
+		}
 		// 将scoreMap转为List排序输出
 		List<Entry<String, Float>> scoreList = new ArrayList<Entry<String, Float>>(scoreMap.entrySet());
 		Collections.sort(scoreList, new ScoreComparator());
@@ -133,7 +140,8 @@ public class School {
 	public void displayBanJiName() {
 		System.out.println("所有班级名称：");
 		for (String className : schoolMap.keySet()) {
-			System.out.println(className);
+			if (!className.equals("主学生列表"))
+				System.out.println(className);
 		}
 	}
 }

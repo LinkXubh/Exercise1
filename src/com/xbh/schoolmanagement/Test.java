@@ -1,5 +1,7 @@
 package com.xbh.schoolmanagement;
 
+import java.util.Scanner;
+
 public class Test {
 
 	public void testStudent() {
@@ -39,8 +41,9 @@ public class Test {
 		System.out.println(banji1);
 		System.out.println(banji2);
 	}
-	
+
 	public void testSchool() {
+		Scanner sc = new Scanner(System.in);
 		Student stu1 = new Student("S001", "小王");
 		Student stu2 = new Student("S002", "小红");
 		Student stu3 = new Student("S003", "小明");
@@ -54,25 +57,28 @@ public class Test {
 		banji2.addStudent(stu4);
 		school.addBanji(banji1);
 		school.addBanji(banji2);
-		stu1.setChinese(80.0f);
-		stu2.setChinese(70.0f);
-		stu3.setChinese(90.0f);
-		stu4.setChinese(80.0f);
+		for (Student student : banji1.getStuList()) {
+			System.out.println("请输入学生" + student.getStuNum() + "的语文成绩：");
+			float score =  sc.nextFloat();
+			banji1.insertChineseScore(student.getStuNum(),score);
+		}
+		for (Student student : banji2.getStuList()) {
+			System.out.println("请输入学生" + student.getStuNum() + "的语文成绩：");
+			banji2.insertChineseScore(student.getStuNum(), sc.nextFloat());
+		}
 		school.sortChineseByAverage();
-		//System.out.println("删除前");
-		//school.displayBanJiName();
-		//System.out.println(school.searchByName("一班"));
-		//school.deleteBanji(banji1);
-		//System.out.println("删除后");
-		//school.displayBanJiName();
+		// System.out.println("删除前");
+		// school.displayBanJiName();
+		// System.out.println(school.searchByName("一班"));
+		// school.deleteBanji(banji1);
+		// System.out.println("删除后");
+		// school.displayBanJiName();
+		sc.close();
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Test t = new Test();
-		// t.testStudent();
-		//t.testBanji();
-		t.testSchool();
+		Menu menu = new Menu();
+		menu.mainProcess();
 	}
 
 }
