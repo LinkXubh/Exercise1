@@ -54,12 +54,17 @@ public class Test {
 		banji2.addStudent(stu4);
 		school.addBanji(banji1);
 		school.addBanji(banji2);
-		System.out.println("É¾³ýÇ°");
-		school.displayBanJiName();
-		System.out.println(school.searchByName("Ò»°à"));
-		school.deleteBanji(banji1);
-		System.out.println("É¾³ýºó");
-		school.displayBanJiName();
+		stu1.setChinese(80.0f);
+		stu2.setChinese(70.0f);
+		stu3.setChinese(90.0f);
+		stu4.setChinese(80.0f);
+		school.sortChineseByAverage();
+		//System.out.println("É¾³ýÇ°");
+		//school.displayBanJiName();
+		//System.out.println(school.searchByName("Ò»°à"));
+		//school.deleteBanji(banji1);
+		//System.out.println("É¾³ýºó");
+		//school.displayBanJiName();
 	}
 
 	public static void main(String[] args) {
