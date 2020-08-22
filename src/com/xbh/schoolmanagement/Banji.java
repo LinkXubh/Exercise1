@@ -51,7 +51,7 @@ public class Banji {
 		// 判断学生是否存在
 		for (Student student : stuList) {
 			if (student.equals(stu)) {
-				System.out.println("学生：" + stu.getStuNum() + "在班级：" + this.getClassName() + "中已存在！");
+				System.out.println("学生" + stu.getStuNum() + "在" + this.getClassName() + "已存在");
 				return;
 			}
 		}
@@ -81,10 +81,12 @@ public class Banji {
 	 */
 	public void insertChineseScore(String stuNum, float score) {
 		Student student = this.searchStudentByNum(stuNum);
-		if (student == null)
+		if (student == null) {
 			System.out.println("该学生不在此班级中");
-		else
+		} else {
 			student.setChinese(score);
+			System.out.println("添加语文成绩成功");
+		}
 	}
 
 	/**
@@ -95,10 +97,12 @@ public class Banji {
 	 */
 	public void insertMathScore(String stuNum, float score) {
 		Student student = this.searchStudentByNum(stuNum);
-		if (student == null)
+		if (student == null) {
 			System.out.println("该学生不在此班级中");
-		else
+		} else {
 			student.setMath(score);
+			System.out.println("添加数学成绩成功");
+		}
 	}
 
 	/**
@@ -110,9 +114,9 @@ public class Banji {
 		Student student = this.searchStudentByNum(stuNum);
 		if (student != null) {
 			this.getStuList().remove(student);
-			System.out.println("删除成功！");
+			System.out.println("删除成功");
 		} else {
-			System.out.println("没有找到学号为：" + stuNum + "的学生！");
+			System.out.println("没有找到学号为：" + stuNum + "的学生");
 		}
 
 	}
@@ -121,7 +125,6 @@ public class Banji {
 	 * 显示所有学生的信息（包括学号和姓名）
 	 */
 	public void displayAllStudent() {
-		System.out.println(this.getClassName() + "班级列表：");
 		for (Student student : stuList) {
 			System.out.println(student);
 		}

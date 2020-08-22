@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 public class Menu {
 	private static final Scanner in = new Scanner(System.in);
-	private static Banji mainClass = new Banji("mainClassList", "主学生列表");
-	private static School school = new School();
+	private static final Banji mainClass = new Banji("mainClassList", "主学生列表");
+	private static final School school = new School();
 
 	static {
 		school.addBanji(mainClass);
@@ -55,7 +55,7 @@ public class Menu {
 		int input = 0;
 		while (true) {
 			mainMenu();
-			System.out.println("请输入对应数字进行操作");
+			System.out.println("请输入对应数字进行操作：");
 			try {
 				input = in.nextInt();
 			} catch (InputMismatchException e) {
@@ -90,7 +90,7 @@ public class Menu {
 		int input = 0;
 		while (true) {
 			classMenu();
-			System.out.println("请输入对应数字进行操作");
+			System.out.println("请输入对应数字进行操作：");
 			try {
 				input = in.nextInt();
 			} catch (InputMismatchException e) {
@@ -103,31 +103,37 @@ public class Menu {
 			switch (input) {
 			case 1:
 				System.out.println("添加学生信息到主学生列表");
+				addStudentToMainClass();
 				break;
 			case 2:
 				System.out.println("添加学生信息到普通学生列表");
+				addStudentToClass();
 				break;
 			case 3:
 				System.out.println("通过学号查询学生信息");
+				searchStudent();
 				break;
 			case 4:
 				System.out.println("输入班级的语文成绩");
+				chineseScore();
 				break;
 			case 5:
 				System.out.println("输入班级的数学成绩");
+				mathScore();
 				break;
 			case 6:
 				System.out.println("删除学生信息");
+				deleteStudent();
 				break;
 			case 7:
 				System.out.println("显示所有学生信息");
+				displayClassStudent();
 				break;
 			case 9:
 				System.out.println("返回上一级菜单");
 				return;
 			default:
 				System.out.println("输入有误，没有对应的操作");
-
 			}
 		}
 	}
@@ -139,7 +145,7 @@ public class Menu {
 		int input = 0;
 		while (true) {
 			schoolMenu();
-			System.out.println("请输入对应数字进行操作");
+			System.out.println("请输入对应数字进行操作：");
 			try {
 				input = in.nextInt();
 			} catch (InputMismatchException e) {
@@ -179,8 +185,191 @@ public class Menu {
 				return;
 			default:
 				System.out.println("输入有误，没有对应的操作");
-
 			}
+		}
+	}
+
+	/**
+	 * 添加学生信息到主学生列表
+	 */
+	public void addStudentToMainClass() {
+		int count = 0;
+		System.out.println("请输入要添加学生信息个数：");
+		try {
+			count = in.nextInt();
+		} catch (InputMismatchException e) {
+			in.next();
+			System.out.println("输入的数据格式不正确");
+			return;
+		}
+		for (int i = 1; i <= count; i++) {
+			System.out.println("请输入第" + i + "个学生信息");
+			System.out.println("请输入学生ID:");
+			String stuNum = in.next();
+			System.out.println("请输入学生姓名：");
+			String stuName = in.next();
+			Student student = new Student(stuNum, stuName);
+			mainClass.addStudent(student);
+		}
+		System.out.println("主学生列表：");
+		mainClass.displayAllStudent();
+	}
+
+	/**
+	 * 添加学生到普通学生列表，如果学生在主学生列表中存在直接添加
+	 */
+	public void addStudentToClass() {
+		System.out.println("请输入要添加的班级名称：");
+		String className = in.next();
+		Banji banji = school.searchByName(className);
+		if (banji == null) {
+			System.out.println("未查询到此班级");
+			return;
+		} else {
+			int count = 0;
+			System.out.println("请输入要添加学生信息个数：");
+			try {
+				count = in.nextInt();
+			} catch (InputMismatchException e) {
+				in.next();
+				System.out.println("输入的数据格式不正确");
+				return;
+			}
+			for (int i = 1; i <= count; i++) {
+				System.out.println("请输入第" + i + "个学生信息");
+				System.out.println("请输入学生ID:");
+				String stuNum = in.next();
+				Student student = mainClass.searchStudentByNum(stuNum);
+				if (student == null) {
+					System.out.println("该学生信息在主学生列表中不存在，请输入学生的其他信息");
+					System.out.println("请输入学生姓名：");
+					String stuName = in.next();
+					student = new Student(stuNum, stuName);
+					mainClass.addStudent(student);
+				}
+				banji.addStudent(student);
+			}
+			System.out.println("主学生列表：");
+			mainClass.displayAllStudent();
+			System.out.println(banji.getClassName() + "班级列表：");
+			banji.displayAllStudent();
+		}
+	}
+
+	/**
+	 * 通过学号查询学生信息
+	 */
+	public void searchStudent() {
+		System.out.println("请输入要查询的班级名称：");
+		String className = in.next();
+		Banji banji = school.searchByName(className);
+		if (banji == null) {
+			System.out.println("该班级不存在");
+		} else {
+			System.out.println("请输入要查询的学生ID：");
+			String stuNum = in.next();
+			Student student = banji.searchStudentByNum(stuNum);
+			if (student == null)
+				System.out.println("学生" + stuNum + "在" + className + "不存在");
+			else
+				System.out.println(student);
+		}
+	}
+
+	/**
+	 * 输入班级的语文成绩
+	 */
+	public void chineseScore() {
+		System.out.println("请输入班级的名称：");
+		String className = in.next();
+		Banji banji = school.searchByName(className);
+		if (banji == null) {
+			System.out.println("该班级不存在");
+		} else {
+			float score = 0.0f;
+			for (Student student : banji.getStuList()) {
+				System.out.println("学生id：" + student.getStuNum() + "学生姓名" + student.getStuName());
+				System.out.println("请输入学生语文成绩：");
+				while (true) {
+					try {
+						score = in.nextFloat();
+						if (score < 0.0f || score > 100.0f) {
+							System.out.println("输入的分数超出有效范围（0-100）请重新输入：");
+							continue;
+						}
+					} catch (InputMismatchException e) {
+						in.next();
+						System.out.println("输入的数据格式不正确请重新输入：");
+						continue;
+					}
+					break;
+				}
+				banji.insertChineseScore(student.getStuNum(), score);
+			}
+		}
+	}
+
+	/**
+	 * 输入班级的数学成绩
+	 */
+	public void mathScore() {
+		System.out.println("请输入班级的名称：");
+		String className = in.next();
+		Banji banji = school.searchByName(className);
+		if (banji == null) {
+			System.out.println("该班级不存在");
+		} else {
+			float score = 0.0f;
+			for (Student student : banji.getStuList()) {
+				System.out.println("学生id：" + student.getStuNum() + "学生姓名" + student.getStuName());
+				System.out.println("请输入学生数学成绩：");
+				while (true) {
+					try {
+						score = in.nextFloat();
+						if (score < 0.0f || score > 100.0f) {
+							System.out.println("输入的分数超出有效范围（0-100）请重新输入：");
+							continue;
+						}
+					} catch (InputMismatchException e) {
+						in.next();
+						System.out.println("输入的数据格式不正确请重新输入：");
+						continue;
+					}
+					break;
+				}
+				banji.insertMathScore(student.getStuNum(), score);
+			}
+		}
+	}
+
+	/**
+	 * 删除学生信息
+	 */
+	public void deleteStudent() {
+		System.out.println("请输入班级的名称：");
+		String className = in.next();
+		Banji banji = school.searchByName(className);
+		if (banji == null) {
+			System.out.println("该班级不存在");
+		} else {
+			System.out.println("请输入学生ID：");
+			String stuNum = in.next();
+			banji.deleteStudent(stuNum);
+		}
+	}
+
+	/**
+	 * 输入班级名称查询班级中所有学生信息
+	 */
+	public void displayClassStudent() {
+		System.out.println("请输入班级的名称：");
+		String className = in.next();
+		Banji banji = school.searchByName(className);
+		if (banji == null) {
+			System.out.println("该班级不存在");
+		} else {
+			System.out.println(banji.getClassName() + "班级列表：");
+			banji.displayAllStudent();
 		}
 	}
 
@@ -206,7 +395,7 @@ public class Menu {
 	 * 删除班级,无法删除主学生列表与不存在的班级
 	 */
 	public void deleteClass() {
-		System.out.println("请输入班级名称");
+		System.out.println("请输入班级名称：");
 		String className = in.next();
 		if (className.equals("主学生列表")) {
 			System.out.println("主学生列表不能删除");
@@ -217,7 +406,7 @@ public class Menu {
 			System.out.println("该班级不存在");
 		} else {
 			school.deleteBanji(banji);
-			System.out.println("班级删除成功！");
+			System.out.println("班级删除成功");
 		}
 	}
 
@@ -229,7 +418,7 @@ public class Menu {
 		String className = in.next();
 		Banji banji = school.searchByName(className);
 		if (banji == null)
-			System.out.println("该班级不存在！");
+			System.out.println("该班级不存在");
 		else
 			System.out.println(banji);
 	}

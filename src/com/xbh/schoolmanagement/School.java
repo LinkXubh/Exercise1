@@ -84,7 +84,7 @@ public class School {
 			}
 		}
 		if (scoreMap.isEmpty()) {
-			System.out.println("还没有添加班级！");
+			System.out.println("还没有添加班级");
 			return;
 		}
 		// 将scoreMap转为List排序输出
@@ -122,7 +122,7 @@ public class School {
 			}
 		}
 		if (scoreMap.isEmpty()) {
-			System.out.println("还没有添加班级！");
+			System.out.println("还没有添加班级");
 			return;
 		}
 		// 将scoreMap转为List排序输出

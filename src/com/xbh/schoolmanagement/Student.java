@@ -54,7 +54,7 @@ public class Student {
 		if (math >= 0.0f && math <= 100.0f)
 			this.math = math;
 		else {
-			System.out.println("超出分数有效范围，默认为0！");
+			System.out.println("超出分数有效范围0-100，默认为0");
 			this.math = 0.0f;
 		}
 	}
@@ -68,7 +68,7 @@ public class Student {
 		if (chinese >= 0.0f && chinese <= 100.0f)
 			this.chinese = chinese;
 		else {
-			System.out.println("超出分数有效范围，默认为0！");
+			System.out.println("超出分数有效范围0-100，默认为0");
 			this.chinese = 0.0f;
 		}
 	}
@@ -93,7 +93,7 @@ public class Student {
 			return true;
 		if (obj.getClass() == Student.class) {
 			Student student = (Student) obj;
-			return student.getStuNum().equals(this.getStuNum()) && student.getStuName().equals(this.getStuName());
+			return student.getStuNum().equals(this.getStuNum());
 		}
 		return false;
 	}
